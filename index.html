@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#13110f">
+  <title>K-Pg Boundary Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-view="overview" data-mode="explore">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <div>
+        <h1>K-Pg Boundary Explorer</h1>
+        <p class="tagline">66 million years ago, in the rocks</p>
+      </div>
+    </div>
+    <div class="modes" role="tablist" aria-label="Mode">
+      <button role="tab" id="modeExplore" aria-selected="true">Explore</button>
+      <button role="tab" id="modeTrail" aria-selected="false">Trail of Evidence</button>
+    </div>
+  </header>
+
+  <main class="stage">
+    <section class="map-pane" aria-label="Map of K-Pg boundary sites">
+      <div id="map"></div>
+      <div id="mapFallback" hidden></div>
+      <button class="back-btn" id="backBtn" type="button">← World map</button>
+      <aside id="card" class="card">
+        <div class="sheet-bar" id="sheetBar">
+          <button type="button" class="sheet-grab" id="sheetGrab" aria-label="Show more details"><span class="grip"></span><span class="sheet-label" id="sheetLabel">Details</span></button>
+          <div class="sheet-step">
+            <button type="button" data-step="-1" aria-label="Younger layer">▲</button>
+            <button type="button" data-step="1" aria-label="Older layer">▼</button>
+          </div>
+        </div>
+        <div id="cardBody" aria-live="polite"></div>
+      </aside>
+    </section>
+
+    <section class="right-pane" id="rightPane">
+      <div id="overview" class="overview"></div>
+      <div id="viewer" class="viewer" hidden>
+        <div class="viewer-head" id="viewerHead"></div>
+        <div class="viewer-body">
+          <div class="time-axis" aria-hidden="true">
+            <span>Younger</span>
+            <div class="axis-line"></div>
+            <span>Older</span>
+          </div>
+          <div class="strata-scroll" id="strataScroll">
+            <div class="strata" id="strata"></div>
+          </div>
+          <div class="stepper" id="stepper"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="trailbar" id="trailbar" hidden></footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
