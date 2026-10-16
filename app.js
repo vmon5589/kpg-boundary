@@ -171,6 +171,7 @@
         <div><b>2 · Explore the layers</b>Hover (or tap) a layer of the core or cliff. Use <kbd>↑</kbd><kbd>↓</kbd> to move through time.</div>
         <div><b>3 · Build the case</b>The Trail of Evidence follows the clues in the order scientists found them.</div>
       </div>
+      <p class="name-note">New to rock cores? Start with the background: ${learnLink("core", "How to read a core")}</p>
       <div id="groups"></div>
       <div class="cta">
         <p><b>How did scientists figure it out?</b> Follow 14 clues, from big forams vanishing in Italy to a crater buried in Mexico, and watch the evidence add up across seven fields of science.</p>
@@ -512,7 +513,8 @@
     } else if (trailStep && trailStep.site === site.id && (!layer || layer.id === trailStep.layer)) {
       html += `<div class="clue-banner"><div class="eyebrow">Clue ${state.trailIndex + 1} of ${KT.trail.length} · ${trailStep.year}</div>
         <h3>${trailStep.title}</h3><p>${trailStep.text}</p>
-        <div class="chips" style="margin-top:8px">${chips(trailStep.disciplines)}</div></div>`;
+        <div class="chips" style="margin-top:8px">${chips(trailStep.disciplines)}</div>
+        ${trailStep.learn ? learnLink(trailStep.learn.topic, trailStep.learn.label) : ""}</div>`;
     }
 
     if (layer) {
@@ -527,7 +529,7 @@
         <h3>Why it matters</h3><p>${layer.why}</p>
         ${layer.evidence ? `<div class="evidence"><div><span class="lbl">Evidence</span><p>${layer.evidence}</p></div><div><span class="lbl">What it suggests</span><p>${layer.suggests}</p></div></div>` : ""}
         ${layer.forams ? foramGallery(layer.forams) : ""}
-        ${layer.chart ? miniChart(KT.charts[layer.chart]) : ""}
+        ${layer.chart ? miniChart(KT.charts[layer.chart], !layer.forams) : ""}
         ${(layer.asks || (layer.ask ? [layer.ask] : [])).map(a => `<div class="ask"><strong>Think about it</strong><p>${a.q}</p><details><summary>Show answer</summary><p>${a.a}</p></details></div>`).join("")}
         <h3>Fields of science</h3><div class="chips">${chips(layer.disciplines)}</div>`;
     } else if (!conclusion) {
@@ -543,7 +545,8 @@
         ${site.discovery ? discoveryBlock(site.discovery) : ""}
         ${site.core ? coreStory(site) : ""}
         ${site.quickLinks ? `<h3>See the fossil forams</h3><div class="quick-links">${site.quickLinks.map(q => `<button type="button" class="btn ghost" data-pin="${q.layer}">${q.label} →</button>`).join("")}</div>` : ""}
-        <p class="hint">${canHover ? "Hover" : "Tap"} a layer in the ${site.image ? (site.layers.some(l => l.h) ? "photo or diagram" : "photo") : "diagram"} to see what it is. Start at the bottom, in the Cretaceous, and climb up through time with ${canHover ? "<kbd>↑</kbd>" : "▲"}.</p>`;
+        <p class="hint">${canHover ? "Hover" : "Tap"} a layer in the ${site.image ? (site.layers.some(l => l.h) ? "photo or diagram" : "photo") : "diagram"} to see what it is. Start at the bottom, in the Cretaceous, and climb up through time with ${canHover ? "<kbd>↑</kbd>" : "▲"}.
+          ${learnLink("core", "New to this? How to read a core")}</p>`;
     }
     $("#cardBody").innerHTML = html;
     card.classList.remove("swap"); void card.offsetWidth; card.classList.add("swap");
@@ -605,8 +608,12 @@
     return `<div class="foram-gallery"><h3>${which === "both" ? "Compare the forams across the boundary" : "Forams from this layer"}</h3>
       ${rows}
       <div class="foram-scale"><span style="width:calc(var(--tile) * ${F.scaleBarFraction})"></span>0.1 mm · every specimen is shown at the same scale</div>
-      <div class="src">${F.source}</div></div>`;
+      <div class="src">${F.source}</div>
+      ${learnLink("abundance", "Learn more: how forams change through a core")}</div>`;
   }
+
+  const learnLink = (topic, label) =>
+    `<a class="learn-link" href="#learn=${topic}" data-learn="${topic}">${label} →</a>`;
 
   function chips(list = []) {
     return list.map(k => {
@@ -615,7 +622,7 @@
     }).join("");
   }
 
-  function miniChart(c) {
+  function miniChart(c, withLearn = true) {
     if (!c) return "";
     const max = Math.max(...c.bars.map(b => b.value));
     const fmt = v => (c.unit === "mm" ? v.toFixed(3) : v) + (c.unit === "%" ? "%" : "");
@@ -626,17 +633,30 @@
           <span class="track"><span class="fill ${b.tone}" style="display:block;width:${(b.value / max * 100).toFixed(1)}%"></span></span>
           <span class="val">${fmt(b.value)}</span></div>`).join("")}
       ${c.note ? `<div class="src" style="color:var(--ink-2)">${c.note}</div>` : ""}
-      <div class="src">Source: ${c.source}</div></div>`;
+      <div class="src">Source: ${c.source}</div>
+      ${withLearn ? learnLink("abundance", "Learn more: how species abundance changes through a core") : ""}</div>`;
   }
 
   // ---------- Trail of Evidence ----------
-  function setMode(mode) {
+  function setMode(mode, topic) {
+    const wasLearn = state.mode === "learn";
     state.mode = mode;
     document.body.dataset.mode = mode;
     $("#modeExplore").setAttribute("aria-selected", mode === "explore");
     $("#modeTrail").setAttribute("aria-selected", mode === "trail");
+    $("#modeLearn").setAttribute("aria-selected", mode === "learn");
     const bar = $("#trailbar");
     lastCardKey = "";
+    $(".stage").hidden = mode === "learn";
+    $("#learn").hidden = mode !== "learn";
+    if (mode === "learn") {
+      bar.hidden = true;
+      document.documentElement.style.setProperty("--trail-h", "0px");
+      state.learnTopic = KTLearn.render(topic || state.learnTopic || "core", learnBack());
+      history.replaceState(null, "", "#learn=" + state.learnTopic);
+      return;
+    }
+    if (wasLearn) { learnReturn = null; history.replaceState(null, "", location.pathname + location.search); }
     if (mode === "trail") {
       bar.hidden = false;
       goTrail(0);
@@ -648,6 +668,38 @@
     if (map) setTimeout(() => map.invalidateSize(), 50);
     setTimeout(layoutStrata, 60);
   }
+
+  // ---------- Background info ----------
+  // learnReturn remembers where a "learn more" link was clicked, so the page can offer a way back.
+  let learnReturn = null;
+  function learnBack() {
+    if (!learnReturn) return null;
+    const r = learnReturn;
+    const label = r.mode === "trail" ? (r.trailIndex < KT.trail.length ? `Back to clue ${r.trailIndex + 1}` : "Back to the verdict")
+      : r.view === "site" ? `Back to ${byId[r.siteId].name}` : "Back to the map";
+    return { label, go: () => {
+      learnReturn = null;
+      if (r.mode === "trail") { setMode("trail"); goTrail(r.trailIndex); }
+      else {
+        setMode("explore");
+        if (r.view === "site") selectSite(r.siteId, { layer: r.pinned });
+        else backToMap();
+      }
+    } };
+  }
+  function openLearn(topic, opts = {}) {
+    if (!opts.keepBack) {
+      learnReturn = state.mode === "learn" ? null
+        : { mode: state.mode, view: state.view, siteId: state.siteId, pinned: state.pinned, trailIndex: state.trailIndex };
+    }
+    setMode("learn", topic);
+  }
+  function openSite(id, layer) {
+    learnReturn = null;
+    setMode("explore");
+    selectSite(id, { layer: layer || null });
+  }
+  window.KTApp = { openLearn, openSite };
 
   function goTrail(i) {
     const n = KT.trail.length;
@@ -720,6 +772,11 @@
     $("#backBtn").addEventListener("click", () => { if (state.mode === "trail") setMode("explore"); backToMap(); });
     $("#modeExplore").addEventListener("click", () => setMode("explore"));
     $("#modeTrail").addEventListener("click", () => setMode("trail"));
+    $("#modeLearn").addEventListener("click", () => { if (state.mode !== "learn") { learnReturn = null; setMode("learn"); } });
+    document.addEventListener("click", e => {
+      const a = e.target.closest("[data-learn]");
+      if (a) { e.preventDefault(); openLearn(a.dataset.learn); }
+    });
     // Clicking the empty part of the column area clears the pinned layer
     $("#strataScroll").addEventListener("click", e => {
       if (e.target === e.currentTarget || e.target.id === "strata") { state.pinned = null; updateActive(); renderCard(); }
@@ -727,6 +784,7 @@
 
     document.addEventListener("keydown", e => {
       if (e.target.closest && e.target.closest("input, textarea")) return;
+      if (state.mode === "learn") return;
       if (state.view === "site" && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
         e.preventDefault(); step(e.key === "ArrowUp" ? -1 : 1);
       } else if (e.key === "Escape" && state.view === "site") {
@@ -748,7 +806,8 @@
   // Deep links, e.g. index.html#site=blake&layer=ejecta or #trail=5 (handy for lesson plans)
   function applyHash() {
     const h = new URLSearchParams(location.hash.slice(1));
-    if (h.has("trail")) { setMode("trail"); goTrail((parseInt(h.get("trail"), 10) || 1) - 1); }
+    if (h.has("learn")) { if (state.mode !== "learn" || state.learnTopic !== h.get("learn")) openLearn(h.get("learn")); }
+    else if (h.has("trail")) { setMode("trail"); goTrail((parseInt(h.get("trail"), 10) || 1) - 1); }
     else if (h.has("site") && byId[h.get("site")]) selectSite(h.get("site"), { layer: h.get("layer") });
   }
   applyHash();

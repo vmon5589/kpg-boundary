@@ -23,6 +23,7 @@
     <div class="modes" role="tablist" aria-label="Mode">
       <button role="tab" id="modeExplore" aria-selected="true">Explore</button>
       <button role="tab" id="modeTrail" aria-selected="false">Trail of Evidence</button>
+      <button role="tab" id="modeLearn" aria-selected="false"><span class="lbl-full">Background info</span><span class="lbl-short">Background</span></button>
     </div>
   </header>
 
@@ -62,10 +63,13 @@
     </section>
   </main>
 
+  <main class="learn" id="learn" hidden></main>
+
   <footer class="trailbar" id="trailbar" hidden></footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="data.js"></script>
+  <script src="learn.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -715,7 +715,7 @@ KT.sites = [
 // Trail of Evidence: the order in which the case was actually built (discovery time),
 // following the HHMI "Following the Trail of Evidence" answer key.
 KT.trail = [
-  { year: "1970s", site: "gubbio", layer: "k",
+  { year: "1970s", site: "gubbio", layer: "k", learn: { topic: "core", label: "New to rock layers? How to read a core" },
     title: "Big forams vanish at a thin clay layer",
     text: "Walter Alvarez sees large, diverse forams below the clay at Gubbio and only tiny ones above it. Is this boundary a mass extinction?",
     disciplines: ["geo", "paleo"] },
@@ -739,7 +739,7 @@ KT.trail = [
     title: "Shocked quartz",
     text: "Quartz grains in Montana’s boundary claystone show microscopic shock lamellae, which form only under impact-level pressures.",
     disciplines: ["geo", "phys"] },
-  { year: "1980s", site: "blake", layer: "ejecta",
+  { year: "1980s", site: "blake", layer: "ejecta", learn: { topic: "core", label: "First drill core on the trail: what is a core?" },
     title: "Glass spherules",
     text: "The boundary layer contains spherules: droplets of melted rock that cooled in the sky. Something generated enough heat to turn rock into glass.",
     disciplines: ["geo", "phys"] },
@@ -767,7 +767,7 @@ KT.trail = [
     title: "Plants collapse, ferns take over",
     text: "Pollen records show ~60% of plant species disappearing. Ferns spike right above the boundary (Raton Basin, New Zealand), then other plants slowly recover.",
     disciplines: ["bot"] },
-  { year: "1997–2002", site: "blake", layer: "pg",
+  { year: "1997–2002", site: "blake", layer: "pg", learn: { topic: "abundance", label: "Learn more: how foram abundance changes through a core" },
     title: "94% of planktonic forams gone",
     text: "At ODP Site 1049, 33 of 35 foram species go extinct exactly at the ejecta layer. The small, fast-reproducing generalists survived.",
     disciplines: ["paleo"] }
