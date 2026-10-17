@@ -652,7 +652,7 @@
     if (mode === "learn") {
       bar.hidden = true;
       document.documentElement.style.setProperty("--trail-h", "0px");
-      state.learnTopic = KTLearn.render(topic || state.learnTopic || "core", learnBack());
+      state.learnTopic = KTLearn.render(topic || state.learnTopic || "extinction", learnBack());
       history.replaceState(null, "", "#learn=" + state.learnTopic);
       return;
     }
@@ -699,7 +699,11 @@
     setMode("explore");
     selectSite(id, { layer: layer || null });
   }
-  window.KTApp = { openLearn, openSite };
+  function openTrail() {
+    learnReturn = null;
+    setMode("trail");
+  }
+  window.KTApp = { openLearn, openSite, openTrail };
 
   function goTrail(i) {
     const n = KT.trail.length;

@@ -74,11 +74,52 @@
   const foramIcon = (id, size = 34) =>
     `<svg class="foram-ico" width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true"><use href="#f-${id}"/></svg>`;
 
-  // ---------- Topic 1: How to read a core ----------
-  function coreTopic() {
+  // ---------- Topic 1: The extinction mystery ----------
+  // Sets up the question without giving away the answer; the Trail of Evidence reveals it.
+  function extinctionTopic() {
     return `
       <header class="lt-head">
         <div class="eyebrow">Background · 1</div>
+        <h2>The extinction mystery</h2>
+        <p class="lede">About 66 million years ago, the dinosaurs vanished, along with most life on Earth. For more than a century, nobody could say why.</p>
+      </header>
+
+      <section class="lt-sec">
+        <h3><span class="num">1</span>What the fossils show</h3>
+        <p>Fossil hunters noticed a pattern long ago. In rocks from the <b>Cretaceous</b> period there are dinosaurs, ammonites, giant forams and flowering forests. In the rocks just above, most of them are <b>gone</b>, and they never come back.</p>
+        <p>Older textbooks put this at 65 million years ago; better dating methods now give about <b>66 million</b>. It was one of the five largest mass extinctions in Earth’s history: roughly three out of every four species disappeared. Small mammals, birds, crocodiles and some plants made it through, and inherited the planet.</p>
+        <p class="lt-note">The fossils tell us <em>that</em> it happened. They don’t, on their own, tell us <em>what</em> happened, or how fast.</p>
+      </section>
+
+      <section class="lt-sec">
+        <h3><span class="num">2</span>Competing ideas</h3>
+        <p>By the 1970s, scientists had proposed many explanations. Two were taken especially seriously:</p>
+        <div class="lt-cards">
+          <div class="lt-card"><b>Deccan Traps volcanism</b><p>In what is now India, enormous volcanic eruptions poured out lava that piled up more than 2 km thick, right around the end of the Cretaceous. Gases from eruptions this big could have poisoned the air and oceans and changed the climate.</p></div>
+          <div class="lt-card"><b>A gradual decline</b><p>Sea levels were falling and the climate was shifting near the end of the Cretaceous. Some paleontologists argued that dinosaurs and other groups were already dwindling over millions of years, and the extinction was a slow fade rather than a sudden event.</p></div>
+        </div>
+        <p>A key question divided them: was the extinction <b>slow</b>, taking millions of years, or <b>fast</b>? The answer would be recorded in the rocks, but only if someone could tell how much time a layer represents.</p>
+      </section>
+
+      <section class="lt-sec">
+        <h3><span class="num">3</span>A father, a son, and a thin layer of clay</h3>
+        <p>In the 1970s, geologist <b>Walter Alvarez</b> was studying rock layers near Gubbio, Italy. Between the Cretaceous and Paleogene limestones he found a thin layer of clay, only about a centimeter thick. He wanted to know: <b>how long did it take for that clay to form?</b></p>
+        <p>He brought samples to his father, <b>Luis Alvarez</b>, a Nobel Prize–winning physicist. Together they came up with a clever way to use the rare element <b>iridium</b> as a kind of clock. Their goal was simply to measure time; they weren’t looking for the cause of the extinction.</p>
+        <div class="ask"><strong>Think about it</strong><p>If you wanted to know whether the extinction was slow or sudden, why would it help to know how long the clay layer took to form?</p>
+          <details><summary>Show answer</summary><p>A layer that took a few years to form points to a sudden event; one that took hundreds of thousands of years points to a slow change. Knowing the layer’s timespan tells you how fast the world changed.</p></details></div>
+        <p>What they measured surprised them, and set off a search across the globe that lasted more than twenty years.</p>
+        <div class="lt-actions">
+          <button type="button" class="btn" data-start-trail>Follow the clues: Trail of Evidence →</button>
+          <button type="button" class="btn ghost" data-topic="core">Next: how to read a core →</button>
+        </div>
+      </section>`;
+  }
+
+  // ---------- Topic 2: How to read a core ----------
+  function coreTopic() {
+    return `
+      <header class="lt-head">
+        <div class="eyebrow">Background · 2</div>
         <h2>How to read a core</h2>
         <p class="lede">A core is a column of rock or mud pulled out of the Earth. Read from bottom to top, it is a timeline: each layer is a page, and the K-Pg boundary is one very dramatic page.</p>
       </header>
@@ -268,21 +309,21 @@
     </svg>`;
   }
 
-  // ---------- Topic 2: Species abundance through a core ----------
+  // ---------- Topic 3: Species abundance through a core ----------
   // Simplified from the Danian planktic foram "acme zones" (DanAZ1–3) of Arenillas and colleagues:
   // percentages are illustrative, chosen to show the pattern, not measured values.
   const GROUPS = [
-    { id: "guemb", name: "Guembelitria", color: "#e07a63", size: 17,
+    { id: "guemb", short: "Guembelitria", name: "Guembelitria", color: "#e07a63", size: 17,
       about: "Tiny, three chambers per turn. Rare in the open Cretaceous ocean, it survived the impact and then exploded in numbers: a “disaster taxon.”" },
-    { id: "parvu", name: "Parvularugoglobigerina & Palaeoglobigerina", color: "#b8a7dc", size: 16,
+    { id: "parvu", short: "Parvularugoglobigerina", name: "Parvularugoglobigerina & Palaeoglobigerina", color: "#b8a7dc", size: 16,
       about: "Tiny, simple coils: among the first new species to evolve after the extinction. Gubbio’s Globigerina eugubina is one of them." },
-    { id: "wood", zoom: 3, name: "Woodringina & Chiloguembelina", color: "#e9d45a", size: 19, cards: [2, 7],
+    { id: "wood", zoom: 3, short: "Woodringina", name: "Woodringina & Chiloguembelina", color: "#e9d45a", size: 19, cards: [2, 7],
       about: "Small forams with two rows of chambers. They take over next, as the ocean slowly stabilizes." },
-    { id: "eog", zoom: 3, name: "Eoglobigerina, Parasubbotina & Subbotina", color: "#8cc47a", size: 22, cards: [3, 11],
+    { id: "eog", zoom: 3, short: "Eoglobigerina", name: "Eoglobigerina, Parasubbotina & Subbotina", color: "#8cc47a", size: 22, cards: [3, 11],
       about: "Larger, globular coiled forams. Their rise marks the start of a recovery that took hundreds of thousands of years." },
-    { id: "hetero", zoom: 2, name: "Heterohelicids (Heterohelix, Pseudoguembelina)", color: "#6cb7ad", size: 22, cards: [8, 1],
+    { id: "hetero", zoom: 2, short: "Heterohelix", name: "Heterohelicids (Heterohelix, Pseudoguembelina)", color: "#6cb7ad", size: 22, cards: [8, 1],
       about: "Two rows of chambers, flaring outward. Common in the Cretaceous; almost all vanish at the boundary." },
-    { id: "globo", zoom: 1.4, name: "Globotruncanids (Globotruncana)", color: "#7aa8d6", size: 29, cards: [16, 4],
+    { id: "globo", zoom: 1.4, short: "Globotruncana", name: "Globotruncanids (Globotruncana)", color: "#7aa8d6", size: 29, cards: [16, 4],
       about: "Large, keeled and ornate, adapted to a stable open ocean. All extinct at the boundary." }
   ];
   const BOUNDARY = 40;
@@ -320,13 +361,27 @@
   function abundanceTopic() {
     return `
       <header class="lt-head">
-        <div class="eyebrow">Background · 2</div>
+        <div class="eyebrow">Background · 3</div>
         <h2>Species abundance through a core</h2>
         <p class="lede">Fossils don’t just appear or disappear at the boundary. Counting them sample by sample shows <em>who</em> took over afterward, in what order, and how slowly the ocean recovered.</p>
       </header>
 
       <section class="lt-sec">
-        <h3><span class="num">1</span>Counting fossils, sample by sample</h3>
+        <h3><span class="num">1</span>What are forams, and why count them?</h3>
+        <p><b>Forams</b> (short for <em>foraminifera</em>) are single-celled organisms that build tiny shells, most smaller than a grain of sand. Some float in the sunlit surface of the ocean (<b>planktic</b> forams); others live on the seafloor (<b>benthic</b> forams). When they die, their shells sink and pile up, so much of the white ooze and chalk in K-Pg cores is made of foram shells.</p>
+        <div class="ab-real" style="margin: 0 0 14px">${[[16, "Globotruncana, a large Cretaceous foram"], [8, "Heterohelix, a Cretaceous foram"], [3, "Eoglobigerina, a Paleogene foram"], [2, "Woodringina, a Paleogene foram"]]
+          .map(([n, alt]) => `<span class="ab-thumb"><img src="image/forams/card${String(n).padStart(2, "0")}.jpg" alt="${alt}" loading="lazy"></span>`).join("")}</div>
+        <p>Dinosaurs, plants, pollen and shellfish all hold clues about the extinction, but their fossils are scattered: you might find one bone in meters of rock. Forams are different:</p>
+        <ul class="lt-list">
+          <li><b>They are everywhere.</b> A teaspoon of seafloor mud can hold thousands of shells, so even a tiny sample taken every few centimeters gives a good count.</li>
+          <li><b>They record change in fine detail.</b> Because every thin slice of the core has plenty of forams, scientists can track how the mix of species shifts over short spans of time, not just whether a group is there or not.</li>
+          <li><b>They are found worldwide.</b> Ocean sediments from Italy to Mexico to the Atlantic seafloor can be compared directly.</li>
+          <li><b>Their shapes tell species apart.</b> Each species builds its own style of shell, so a microscope is enough to identify them.</li>
+        </ul>
+      </section>
+
+      <section class="lt-sec">
+        <h3><span class="num">2</span>Counting fossils, sample by sample</h3>
         <div class="lt-strip">
           <div><span class="si">${stepIcon("scoop")}</span><b>Sample</b><p>Take a small scoop from the core every few centimeters.</p></div>
           <div><span class="si">${stepIcon("sieve")}</span><b>Wash</b><p>Rinse it through a fine sieve; mud washes away, shells stay.</p></div>
@@ -336,10 +391,10 @@
       </section>
 
       <section class="lt-sec">
-        <h3><span class="num">2</span>Explore the pattern</h3>
+        <h3><span class="num">3</span>Explore the pattern</h3>
         <p class="lt-hint" id="abHint"></p>
         <div class="ab-wrap">
-          <div class="ab-readout" id="abReadout" aria-live="polite"></div>
+          <div class="ab-readout" id="abReadout"><div id="abRoBody" aria-live="polite"></div><div class="ab-key" id="abKey"></div></div>
           <div class="ab-chart" id="abChart"></div>
         </div>
         <div class="ab-legend" id="abLegend"></div>
@@ -347,7 +402,7 @@
       </section>
 
       <section class="lt-sec">
-        <h3><span class="num">3</span>How to read this chart</h3>
+        <h3><span class="num">4</span>How to read this chart</h3>
         <ul class="lt-list">
           <li><b>Up is younger.</b> Like the core it comes from, time runs from bottom to top. The dashed line is the K-Pg boundary.</li>
           <li><b>Width is abundance.</b> At any level, the colored bands add up to 100% of the forams counted. A wider band means that group made up more of the sample.</li>
@@ -357,7 +412,7 @@
       </section>
 
       <section class="lt-sec">
-        <h3><span class="num">4</span>What happened, zone by zone</h3>
+        <h3><span class="num">5</span>What happened, zone by zone</h3>
         <div class="ab-zones">${ZONES.map(z => `<div class="ab-zone" style="--zc:${z.color}"><b>${z.name}</b><p>${z.text}</p></div>`).join("")}</div>
         <div class="ask"><strong>Think about it</strong><p>Guembelitria was rare before the impact but dominated right after it. Why might a rare species suddenly take over?</p>
           <details><summary>Show answer</summary><p>Its competitors were gone. Guembelitria was a small, fast-reproducing generalist that could tolerate stressed, unstable waters, so it could multiply quickly into the empty ocean. Species like this are called “disaster taxa.”</p></details></div>
@@ -383,7 +438,7 @@
 
   // Interactive stacked-abundance chart. Rendered at the container's pixel width so text stays readable on phones.
   function mountAbundance(root) {
-    const chart = $("#abChart", root), readout = $("#abReadout", root), legend = $("#abLegend", root);
+    const chart = $("#abChart", root), readout = $("#abRoBody", root), legend = $("#abLegend", root), key = $("#abKey", root);
     const touch = !window.matchMedia("(hover: hover)").matches;
     $("#abHint", root).innerHTML = touch
       ? "Tap anywhere on the chart, or use ▲ ▼, to see the mix of forams at that moment."
@@ -396,6 +451,15 @@
         <div><b>${g.name}</b><p>${g.about}</p>
         ${g.cards ? `<div class="ab-real">${g.cards.map(n => `<span class="ab-thumb"><img src="image/forams/card${String(n).padStart(2, "0")}.jpg" alt="Real specimen, card ${n}" loading="lazy" style="transform:scale(${g.zoom})"></span>`).join("")}<span>real specimens (enlarged ${g.zoom}×)</span></div>` : ""}</div>
       </div>`).join("");
+    // Phones: the cards are hidden and this compact key, pinned above the chart with the readout, does their job
+    key.innerHTML = `<div class="ab-chips">${GROUPS.map(g => `
+      <button type="button" class="ab-chip" data-g="${g.id}" aria-pressed="false">
+        <span class="sw" style="background:${g.color}"></span>${foramIcon(g.id, 18)}<span class="nm">${g.short}</span><b class="pct"></b></button>`).join("")}</div>
+      <p class="ab-key-about" hidden></p>`;
+    key.querySelectorAll(".ab-chip").forEach(b => b.addEventListener("click", () => {
+      focusGroup = focusGroup === b.dataset.g ? null : b.dataset.g;
+      highlight();
+    }));
     legend.querySelectorAll(".ab-lg").forEach(n => {
       const on = () => { focusGroup = n.dataset.g; highlight(); };
       const off = () => { focusGroup = null; highlight(); };
@@ -504,11 +568,19 @@
         <div class="ab-ro-stack">${rows.map(r => `<span style="width:${r.v}%;background:${r.g.color}" title="${r.g.name}: ${Math.round(r.v)}%"></span>`).join("")}</div>
         <ul>${rows.map(r => `<li data-g="${r.g.id}"><span class="sw" style="background:${r.g.color}"></span>${foramIcon(r.g.id, 18)}<span class="nm">${r.g.name}</span><b>${Math.round(r.v)}%</b></li>`).join("")}</ul>`;
       readout.querySelectorAll("[data-nudge]").forEach(b => b.addEventListener("click", () => nudge(+b.dataset.nudge)));
+      key.querySelectorAll(".ab-chip").forEach((c, k) => {
+        c.querySelector(".pct").textContent = `${Math.round(p[k])}%`;
+        c.classList.toggle("absent", p[k] < 0.5);
+      });
     }
 
     function highlight() {
       chart.querySelector("svg")?.classList.toggle("focusing", !!focusGroup);
       chart.querySelectorAll("[data-g]").forEach(n => n.classList.toggle("hi", n.dataset.g === focusGroup));
+      key.querySelectorAll(".ab-chip").forEach(c => c.setAttribute("aria-pressed", c.dataset.g === focusGroup));
+      const about = $(".ab-key-about", key), g = GROUPS.find(g => g.id === focusGroup);
+      about.hidden = !g;
+      if (g) about.innerHTML = `<b>${g.name}.</b> ${g.about}`;
     }
 
     draw();
@@ -520,6 +592,7 @@
 
   // ---------- Topic registry + page ----------
   const TOPICS = [
+    { id: "extinction", title: "The extinction mystery", blurb: "What vanished 66 million years ago, the competing ideas, and the question that started it all.", html: extinctionTopic },
     { id: "core", title: "How to read a core", blurb: "What a core is, how it’s sampled, and why time runs bottom to top.", html: coreTopic,
       mount(root) {
         const replay = $("[data-replay]", root), svg = $(".stack-anim", root);
@@ -552,6 +625,7 @@
     root.scrollTop = 0;
     if (back) $("#learnBack", root).addEventListener("click", back.go);
     root.querySelectorAll("[data-topic]").forEach(b => b.addEventListener("click", () => window.KTApp.openLearn(b.dataset.topic, { keepBack: true })));
+    root.querySelectorAll("[data-start-trail]").forEach(b => b.addEventListener("click", () => window.KTApp.openTrail()));
     root.querySelectorAll("[data-goto-site]").forEach(b => b.addEventListener("click", () => window.KTApp.openSite(b.dataset.gotoSite, b.dataset.gotoLayer)));
     if (topic.mount) cleanup = topic.mount(root) || null;
     return topic.id;
