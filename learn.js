@@ -177,7 +177,7 @@
         <div class="lt-actions">
           <button type="button" class="btn" data-goto-site="blake">Explore a real core: Blake Nose →</button>
           <button type="button" class="btn ghost" data-goto-site="gubbio">See a cliff: Gubbio →</button>
-          <button type="button" class="btn ghost" data-topic="abundance">Next: species abundance →</button>
+          <button type="button" class="btn ghost" data-topic="minerals">Next: crucial minerals →</button>
         </div>
       </section>`;
   }
@@ -309,7 +309,102 @@
     </svg>`;
   }
 
-  // ---------- Topic 3: Species abundance through a core ----------
+  // ---------- Topic 3: Crucial minerals ----------
+  function mineralsTopic() {
+    return `
+      <header class="lt-head">
+        <div class="eyebrow">Background · 3</div>
+        <h2>Crucial minerals</h2>
+        <p class="lede">Iridium hinted that something came from space. Minerals changed by the impact proved it, pointed to where it hit, explained why it was so deadly, and showed when it happened.</p>
+      </header>
+
+      <section class="lt-sec">
+        <h3><span class="num">1</span>Minerals as witnesses</h3>
+        <p>A mineral is a natural crystal with a set chemical recipe and a regular arrangement of atoms. Crystals keep a record of what happened to them. Squeeze one hard enough and its atomic structure breaks in telltale ways; heat it enough and it melts into glass. Some even hold atomic “clocks” that tell their age.</p>
+        <p>Volcanoes are hot, but they can’t create the sudden, extreme pressure of an asteroid strike. So when the same damaged minerals turn up in the K-Pg boundary layer all over the world, they point to an impact, not an eruption.</p>
+      </section>
+
+      <section class="lt-sec">
+        <h3><span class="num">2</span>Shocked quartz: proof of an impact</h3>
+        <figure class="min-pair">
+          <div><img src="image/unshocked-quartz.png" alt="An unshocked quartz grain under a polarizing microscope: smooth bands of color with no lines through it" loading="lazy"><span><b>Unshocked quartz</b> smooth, no lines</span></div>
+          <div><img src="image/shocked-quartz.png" alt="A shocked quartz grain under a polarizing microscope, crossed by many fine, straight, parallel lines" loading="lazy"><span><b>Shocked quartz</b> sets of straight, parallel lines</span></div>
+          <figcaption>Quartz grains under a polarizing microscope. Photos © David A. Kring, <a href="https://www.lpi.usra.edu/science/kring/Chicxulub/discovery/" target="_blank" rel="noopener">Lunar and Planetary Institute</a>.</figcaption>
+        </figure>
+        <p><b>Quartz</b> is one of the most common minerals in continental rock like granite and sandstone. When an asteroid hits, a shock wave squeezes the rock to more than 100,000 times the pressure of the air around us in a split second. Quartz crystals buckle along thin, flat planes that turn to glass. Under a microscope these show up as sets of fine, <b>straight, parallel lines</b> crossing the grain, often in two or more directions.</p>
+        <p>In 1984, Bruce Bohor and colleagues found shocked quartz in the boundary clay in Montana. Volcanoes don’t make these features, so it was strong evidence for the asteroid. Scientists later noticed the grains are <b>biggest in North America</b> and smaller farther away, a hint that the crater was nearby.</p>
+        <div class="lt-actions">
+          <button type="button" class="link-btn" data-goto-site="hellcreek" data-goto-layer="clay">See it in the Hell Creek boundary clay →</button>
+          <button type="button" class="link-btn" data-goto-site="chicxulub" data-goto-layer="granite">See it in the crater itself →</button>
+        </div>
+      </section>
+
+      <section class="lt-sec">
+        <h3><span class="num">3</span>Shocked feldspar: a pressure gauge</h3>
+        <p><b>Feldspar</b> is the other main mineral in granite (the big pink and white crystals). It shows the same shock lines as quartz, but at higher pressures it does something more dramatic: it turns into <b>glass without ever melting</b>. The shock wave scrambles its atoms so fast that the crystal doesn’t have time to become liquid.</p>
+        <p>In 1991, shocked quartz and shocked feldspar from old oil wells drilled into the buried Chicxulub structure proved it was an impact crater. Because feldspar changes in steps as pressure rises, it works like a <b>pressure gauge</b>, showing how hard different parts of the crater were hit.</p>
+      </section>
+
+      <section class="lt-sec">
+        <h3><span class="num">4</span>Tektites and spherules: melted rock that rained down</h3>
+        <figure class="min-photo min-slab"><img src="image/ktboundary.haiti-slab.png" alt="Cut rock slab packed with dark, rounded glass tektites in tan limestone" loading="lazy">
+          <figcaption>Tektites in the Beloc boundary bed, Haiti. Photo: Jan Smit, VU Amsterdam.</figcaption></figure>
+        <p>The impact melted and vaporized rock and blasted it above the atmosphere. The melt cooled into <b>glass droplets</b> that rained back down around the planet. Big ones (millimeters across) are called <b>tektites</b>; tiny ones are <b>spherules</b>. Over millions of years, most of this glass turns into clay, like the green spherule bed at Blake Nose.</p>
+        <p>At Beloc, Haiti, the bed is up to half a meter thick, and some tektites still have fresh black glass inside. Some of that glass is unusually rich in <b>calcium and sulfur</b>, the recipe you’d get by melting a mix of continental rock and limestone and anhydrite. Thick ejecta and that recipe both pointed to a crater close by, around the Gulf of Mexico. When the glass was dated, it matched the age of Chicxulub’s melt rock.</p>
+        <div class="lt-actions">
+          <button type="button" class="link-btn" data-goto-site="beloc" data-goto-layer="tektites">See the Beloc tektites →</button>
+          <button type="button" class="link-btn" data-goto-site="blake" data-goto-layer="ejecta">See the Blake Nose spherule bed →</button>
+        </div>
+      </section>
+
+      <section class="lt-sec">
+        <h3><span class="num">5</span>Anhydrite and sulfur: why this impact was so deadly</h3>
+        <p>The asteroid struck a shallow sea on the Yucatán. Under it lay about 3 km of limestone and <b>anhydrite</b> (calcium sulfate, CaSO₄, a close cousin of gypsum). The impact <b>vaporized</b> this rock, releasing hundreds of billions of tonnes of sulfur, along with huge amounts of carbon dioxide.</p>
+        <p>In the upper atmosphere the sulfur formed a haze of tiny <b>sulfate droplets</b> that reflected sunlight. For years the Earth was darker and much colder, photosynthesis faltered, food chains collapsed, and acid rain fell. An asteroid of the same size hitting deep ocean or granite would have released far less sulfur. Many scientists think the impact was so deadly partly because of <b>where</b> it hit.</p>
+        <p class="lt-note">Anhydrite is common in the rocks around Chicxulub, but it is nearly missing from the impact rocks drilled from the crater in 2016. That is what you’d expect if most of it went up in vapor.</p>
+        <div class="lt-actions">
+          <button type="button" class="link-btn" data-goto-site="chicxulub" data-goto-layer="suevite">See the crater’s impact breccia →</button>
+        </div>
+      </section>
+
+      <section class="lt-sec">
+        <h3><span class="num">6</span>Zircon: the clock that pins down the date</h3>
+        <figure class="min-pair min-zircon">
+          <div><img src="image/unshocked-zircon.png" alt="An unshocked zircon crystal under an electron microscope, with sharp, unbroken growth rings from its center to its edge" loading="lazy"><span><b>Unshocked zircon</b> growth rings intact, edge to edge</span></div>
+          <div><img src="image/shocked-zircon.png" alt="A shocked zircon crystal: a blue inner core with growth rings, surrounded by a grainy pink rim" loading="lazy"><span><b>Shocked zircon</b> grainy rim rebuilt by the impact</span></div>
+          <figcaption>Zircons under an electron microscope. Right: shocked zircon crystal used to date another impact (Yarrabubba in Australia). The pink layer is recrystallised during impact leaving the blue inner core intact. Images via <a href="https://ontherocksgeoblog.wordpress.com/2013/02/21/zircon-geologys-tiny-timepiece/" target="_blank" rel="noopener">On the Rocks</a> (left) and <a href="https://www.realclearscience.com/articles/2020/01/22/earths_oldest_asteroid_strike_identified__it_may_have_caused_a_global_thaw_111265.html" target="_blank" rel="noopener">RealClearScience</a> (right).</figcaption>
+        </figure>
+        <p><b>Zircon</b> is a tiny, extremely tough crystal. When it grows, it traps a little <b>uranium</b> but almost no lead. Uranium slowly decays into lead at a known rate, so measuring the two tells you how long ago the crystal formed. Zircon is one of geology’s best clocks.</p>
+        <ul class="lt-list">
+          <li><b>Unshocked zircon</b> keeps the age of the rock it grew in. Zircons in the ejecta are hundreds of millions of years old, the same as the old basement rock under the Yucatán. That <b>fingerprint</b> ties boundary layers far away to Chicxulub.</li>
+          <li><b>Shocked zircon</b> had its structure broken by the shock wave. The most strongly shocked grains turn granular, lose their lead and <b>restart their clocks</b>. Their ages point to the impact itself: about <b>66 million years ago</b>.</li>
+        </ul>
+        <p>One crystal can even hold both clocks, as in the shocked zircon above (right). Its grainy pink rim rebuilt itself during the impact, so it records <b>when the impact happened</b>. The blue core went through the same shock but kept its structure (look for the growth rings), so it still records <b>when the crystal first grew</b>.</p>
+        <p>Zircons in volcanic ash beds just above and below the boundary, in places like Montana and Colorado, have been dated with similar care. Together these show that the crater, the ejecta and the extinction all happened at the <b>same moment</b>, within a few tens of thousands of years of each other, which is a blink in geologic time.</p>
+      </section>
+
+      <section class="lt-sec">
+        <h3><span class="num">7</span>Putting it together</h3>
+        <div class="min-table" role="table" aria-label="What each mineral revealed">
+          <div role="row" class="mt-head"><span role="columnheader">Mineral</span><span role="columnheader">What it revealed</span></div>
+          <div role="row"><b role="cell">Shocked quartz</b><span role="cell">An impact happened, and the crater was in North America</span></div>
+          <div role="row"><b role="cell">Shocked feldspar</b><span role="cell">Chicxulub is an impact crater; how intense the shock was</span></div>
+          <div role="row"><b role="cell">Tektites & spherules</b><span role="cell">Melted rock rained worldwide; thick beds point to the Gulf of Mexico</span></div>
+          <div role="row"><b role="cell">Anhydrite & sulfur</b><span role="cell">Why the impact was so deadly: a sun-blocking sulfate haze</span></div>
+          <div role="row"><b role="cell">Zircon</b><span role="cell">Links the ejecta to Chicxulub and dates the impact to 66 million years ago</span></div>
+        </div>
+        <div class="ask"><strong>Think about it</strong><p>Some scientists argued that Deccan Traps volcanoes caused the extinction. Why was finding shocked quartz in the boundary clay such a problem for that idea?</p>
+          <details><summary>Show answer</summary><p>Volcanoes can’t produce the extreme, instant pressure needed to make the parallel shock lines in quartz. Only a high-speed impact can, so shocked quartz showed an impact happened right at the boundary.</p></details></div>
+        <div class="ask"><strong>Think about it</strong><p>Two zircons from the same ejecta layer give different ages: one 550 million years, the other 66 million years. How can both be right?</p>
+          <details><summary>Show answer</summary><p>They record different events. The unshocked zircon kept the age of the rock it grew in. The shocked zircon had its clock reset by the impact, so it records when the asteroid hit.</p></details></div>
+        <div class="lt-actions">
+          <button type="button" class="btn" data-goto-site="chicxulub">Explore the crater: Chicxulub →</button>
+          <button type="button" class="btn ghost" data-topic="abundance">Next: species abundance →</button>
+        </div>
+      </section>`;
+  }
+
+  // ---------- Topic 4: Species abundance through a core ----------
   // Simplified from the Danian planktic foram "acme zones" (DanAZ1–3) of Arenillas and colleagues:
   // percentages are illustrative, chosen to show the pattern, not measured values.
   const GROUPS = [
@@ -361,7 +456,7 @@
   function abundanceTopic() {
     return `
       <header class="lt-head">
-        <div class="eyebrow">Background · 3</div>
+        <div class="eyebrow">Background · 4</div>
         <h2>Species abundance through a core</h2>
         <p class="lede">Fossils don’t just appear or disappear at the boundary. Counting them sample by sample shows <em>who</em> took over afterward, in what order, and how slowly the ocean recovered.</p>
       </header>
@@ -718,6 +813,7 @@
         io.observe(svg);
         return () => io.disconnect();
       } },
+    { id: "minerals", title: "Crucial minerals", short: "Crucial minerals", blurb: "Shocked quartz, tektites, sulfur and zircon: how minerals proved an impact and dated it.", html: mineralsTopic },
     { id: "abundance", title: "Species abundance through a core", short: "Species abundance", blurb: "How forams rose and fell before and after the K-Pg boundary.", html: abundanceTopic, mount: mountAbundance }
   ];
 

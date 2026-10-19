@@ -497,6 +497,29 @@ body[data-view="site"] .map-legend { display: none; }
 .lt-strip b { display: block; }
 .lt-strip p { margin: 4px 0 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.45; }
 
+/* crucial minerals */
+.min-photo { margin: 0 0 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.min-photo img { display: block; width: 100%; max-height: 380px; object-fit: contain; background: #000; }
+.min-pair { margin: 0 0 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 10px; }
+.min-pair > div { min-width: 0; }
+.min-pair img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: contain; border-radius: 8px; background: #000; }
+.min-pair span { display: block; margin-top: 6px; font-size: 13px; color: var(--ink-2); line-height: 1.35; }
+.min-pair span b { display: block; color: var(--ink); }
+.min-pair figcaption { grid-column: 1 / -1; font-size: 12.5px; color: var(--muted); }
+.min-pair figcaption a { color: inherit; }
+.min-zircon img { aspect-ratio: 2 / 1; }
+.min-photo figcaption { padding: 8px 12px; font-size: 13px; color: var(--muted); }
+.min-photo figcaption a { color: inherit; }
+.lt-sec:has(.min-slab) { display: flow-root; }
+.min-slab { float: right; width: 190px; margin: 0 0 12px 18px; }
+.min-slab img { height: 300px; max-height: none; object-position: center 40%; }
+.lt-actions .link-btn { margin-right: 8px; }
+.min-table { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-bottom: 6px; }
+.min-table > div { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 12px; padding: 10px 14px; border-top: 1px solid var(--line); font-size: 14.5px; line-height: 1.45; }
+.min-table > div:first-child { border-top: 0; }
+.min-table .mt-head { background: var(--panel-2); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.min-table span { color: var(--ink-2); }
+
 /* abundance chart */
 .ab-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 16px; align-items: start; }
 .ab-chart { order: 1; position: relative; min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
@@ -564,15 +587,18 @@ body[data-view="site"] .map-legend { display: none; }
   body[data-mode="learn"] .tagline { display: none; }
   .learn-wrap { grid-template-columns: 1fr; gap: 14px; padding: 14px 16px calc(60px + env(safe-area-inset-bottom)); }
   /* all three topics visible at once, as a segmented control */
-  .learn-toc { position: static; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .learn-toc { position: static; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
   .learn-toc .eyebrow { display: none; }
-  .learn-toc button { flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; padding: 8px 4px; text-align: center; border-color: var(--line); border-radius: 12px; }
+  .learn-toc button { flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; padding: 8px 2px; text-align: center; border-color: var(--line); border-radius: 12px; }
   .learn-toc button[aria-current="true"] { border-color: var(--boundary); }
   .learn-toc button[aria-current="true"] .n { background: var(--boundary); color: var(--bg); }
   .learn-toc small { display: none; }
   .learn-toc .n { width: 20px; height: 20px; font-size: 11px; }
   .learn-toc b { display: none; }
-  .learn-toc b.short { display: block; font-size: 12.5px; line-height: 1.25; }
+  .learn-toc b.short { display: block; font-size: 12px; line-height: 1.25; }
+  .min-slab { width: 128px; margin-left: 12px; }
+  .min-slab img { height: 220px; }
+  .min-table > div { grid-template-columns: 120px minmax(0, 1fr); gap: 10px; padding: 9px 10px; font-size: 13.5px; }
   .lt-head h2 { font-size: 26px; }
   .lt-head .lede { font-size: 15.5px; }
   .lt-sec { margin-top: 30px; }
