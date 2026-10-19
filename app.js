@@ -79,8 +79,18 @@
   // Show far-east sites (New Zealand) west of the Americas so all sites fit one view.
   const mapLatLng = s => [s.latlng[0], s.latlng[1] > 100 ? s.latlng[1] - 360 : s.latlng[1]];
 
+  // Vertical extent of a layer where its leader line attaches: the photo's right edge
+  // (or the polygon's rightmost point). Tilted layers sit higher or lower there than on average.
   function layerSpan(layer) {
-    const ys = layer.poly.map(p => p[1]);
+    const poly = layer.poly;
+    const x = Math.min(100, Math.max(...poly.map(p => p[0])));
+    const ys = [];
+    poly.forEach((a, i) => {
+      const b = poly[(i + 1) % poly.length];
+      if (a[0] === x) ys.push(a[1]);
+      if ((a[0] - x) * (b[0] - x) < 0) ys.push(a[1] + (b[1] - a[1]) * (x - a[0]) / (b[0] - a[0]));
+    });
+    if (!ys.length) ys.push(...poly.map(p => p[1]));
     return [Math.min(...ys), Math.max(...ys)];
   }
 

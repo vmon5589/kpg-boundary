@@ -393,11 +393,17 @@
       <section class="lt-sec">
         <h3><span class="num">3</span>Explore the pattern</h3>
         <p class="lt-hint" id="abHint"></p>
-        <div class="ab-wrap">
-          <div class="ab-readout" id="abReadout"><div id="abRoBody" aria-live="polite"></div><div class="ab-key" id="abKey"></div></div>
+        <div class="ab-wrap" id="abWrap">
+          <div class="ab-readout" id="abReadout">
+            <div class="ab-ro-head"><span class="ab-ro-zone" id="abZone" aria-live="polite"></span>
+              <span class="ab-ro-btns"><button type="button" class="ab-play" id="abPlay">▶ Play</button><button type="button" data-nudge="2" aria-label="Younger">▲</button><button type="button" data-nudge="-2" aria-label="Older">▼</button></span></div>
+            <div class="ab-ro-stack" id="abStack"></div>
+            <ul class="ab-rows" id="abRows"></ul>
+            <div class="ab-key" id="abKey"></div>
+            <p class="ab-key-about" id="abAbout" hidden></p>
+          </div>
           <div class="ab-chart" id="abChart"></div>
         </div>
-        <div class="ab-legend" id="abLegend"></div>
         <p class="lt-note">Simplified from the Danian planktic foram acme zones (DanAZ1–3) described by Arenillas and colleagues from 30 sections around the Americas. Percentages are illustrative, chosen to show the pattern. Photos: HHMI foram cards (Brian Huber, Smithsonian).</p>
       </section>
 
@@ -436,47 +442,80 @@
     return `<svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">${art}</svg>`;
   }
 
-  // Interactive stacked-abundance chart. Rendered at the container's pixel width so text stays readable on phones.
-  function mountAbundance(root) {
-    const chart = $("#abChart", root), readout = $("#abRoBody", root), legend = $("#abLegend", root), key = $("#abKey", root);
-    const touch = !window.matchMedia("(hover: hover)").matches;
-    $("#abHint", root).innerHTML = touch
-      ? "Tap anywhere on the chart, or use ▲ ▼, to see the mix of forams at that moment."
-      : "Move your pointer up and down the chart (or use the ↑ ↓ keys) to see the mix of forams at each moment.";
-    let t = 46, W = 0, dims = null, focusGroup = null;
+  // Guided tour: the cursor climbs the section and pauses at these moments (g = group to highlight).
+  const STOPS = [
+    { t: 20, g: "globo", title: "Latest Cretaceous",
+      text: "A stable, diverse ocean. Large, ornate Globotruncana (blue) and two-rowed Heterohelix (teal) make up almost all the forams. Tiny Guembelitria (red) is rare, about 4%." },
+    { t: 40, g: "guemb", title: "The impact: K-Pg boundary",
+      text: "At this line an asteroid hits Chicxulub. The blue and teal bands stop dead: every Globotruncana and nearly every Heterohelix is gone. Rare Guembelitria suddenly makes up over 90% of the survivors." },
+    { t: 46, g: "guemb", title: "Zone 1 · Disaster bloom",
+      text: "Guembelitria is a tough, fast-breeding generalist. With its competitors gone, it floods the stressed ocean. Species like this are called “disaster taxa.”" },
+    { t: 60, g: "parvu", title: "Zone 2 · Tiny pioneers",
+      text: "Brand-new species evolve from the few survivors. Tiny, simple Parvularugoglobigerina (purple) now make up about 70%, and Guembelitria fades." },
+    { t: 78, g: "wood", title: "Zone 3 · Recovery begins",
+      text: "Small two-rowed Woodringina (yellow) take over, and larger globular Eoglobigerina (green) start to spread." },
+    { t: 100, g: "eog", title: "Top of the section",
+      text: "Hundreds of thousands of years after the impact, diversity is still climbing, and the giant Cretaceous forms never come back." }
+  ];
+  const TOUR_SPEED = 9; // % of the section per second
 
-    legend.innerHTML = GROUPS.map(g => `
-      <div class="ab-lg" data-g="${g.id}" tabindex="0">
-        <span class="sw" style="background:${g.color}"></span>${foramIcon(g.id, 34)}
-        <div><b>${g.name}</b><p>${g.about}</p>
-        ${g.cards ? `<div class="ab-real">${g.cards.map(n => `<span class="ab-thumb"><img src="image/forams/card${String(n).padStart(2, "0")}.jpg" alt="Real specimen, card ${n}" loading="lazy" style="transform:scale(${g.zoom})"></span>`).join("")}<span>real specimens (enlarged ${g.zoom}×)</span></div>` : ""}</div>
-      </div>`).join("");
-    // Phones: the cards are hidden and this compact key, pinned above the chart with the readout, does their job
+  // Interactive stacked-abundance chart. Rendered at the container's pixel width so text stays readable on phones.
+  // `root` is the scrolling #learn container.
+  function mountAbundance(root) {
+    const chart = $("#abChart", root), rows = $("#abRows", root), key = $("#abKey", root), about = $("#abAbout", root);
+    const readout = $("#abReadout", root), zoneEl = $("#abZone", root), stack = $("#abStack", root), playBtn = $("#abPlay", root);
+    const touch = !window.matchMedia("(hover: hover)").matches;
+    const phone = () => window.matchMedia("(max-width: 860px)").matches;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    $("#abHint", root).innerHTML = touch
+      ? "Press <b>▶ Play</b> to travel up through the core. It pauses at the key moments; use ▲ ▼ to step on your own."
+      : "Move your pointer up and down the chart (or use the ↑ ↓ keys) to see the mix of forams at each moment, or press <b>▶ Play</b> for a guided tour. Hover a foram in the legend to learn about it.";
+    let t = 46, W = 0, dims = null, focusGroup = null;
+    let tour = null; // { next: index into STOPS, mode: "run" | "pause" | "stop", raf, last }
+
+    // Legend beside the chart (desktop): live percentages plus real specimens
+    rows.innerHTML = GROUPS.map(g => `
+      <li data-g="${g.id}" tabindex="0" title="${g.name}">
+        <span class="sw" style="background:${g.color}"></span>${foramIcon(g.id, 26)}
+        <span class="nm">${g.short}${g.cards ? `<span class="ab-real">${g.cards.map(n => `<span class="ab-thumb" title="Real specimen, enlarged ${g.zoom}×"><img src="image/forams/card${String(n).padStart(2, "0")}.jpg" alt="Real specimen, card ${n}" loading="lazy" style="transform:scale(${g.zoom})"></span>`).join("")}</span>` : ""}</span>
+        <b class="pct"></b></li>`).join("");
+    // Phones: a compact key does the same job
     key.innerHTML = `<div class="ab-chips">${GROUPS.map(g => `
       <button type="button" class="ab-chip" data-g="${g.id}" aria-pressed="false">
-        <span class="sw" style="background:${g.color}"></span>${foramIcon(g.id, 18)}<span class="nm">${g.short}</span><b class="pct"></b></button>`).join("")}</div>
-      <p class="ab-key-about" hidden></p>`;
-    key.querySelectorAll(".ab-chip").forEach(b => b.addEventListener("click", () => {
-      focusGroup = focusGroup === b.dataset.g ? null : b.dataset.g;
-      highlight();
-    }));
-    legend.querySelectorAll(".ab-lg").forEach(n => {
-      const on = () => { focusGroup = n.dataset.g; highlight(); };
-      const off = () => { focusGroup = null; highlight(); };
-      n.addEventListener("mouseenter", on); n.addEventListener("mouseleave", off);
-      n.addEventListener("focus", on); n.addEventListener("blur", off);
+        <span class="sw" style="background:${g.color}"></span>${foramIcon(g.id, 18)}<span class="nm">${g.short}</span><b class="pct"></b></button>`).join("")}</div>`;
+    const setFocus = id => { focusGroup = id; highlight(); };
+    key.querySelectorAll(".ab-chip").forEach(b => b.addEventListener("click", () => setFocus(focusGroup === b.dataset.g ? null : b.dataset.g)));
+    rows.querySelectorAll("li").forEach(n => {
+      n.addEventListener("mouseenter", () => setFocus(n.dataset.g));
+      n.addEventListener("mouseleave", () => setFocus(null));
+      n.addEventListener("focus", () => setFocus(n.dataset.g));
+      n.addEventListener("blur", () => setFocus(null));
     });
+    readout.querySelectorAll("[data-nudge]").forEach(b => b.addEventListener("click", () => { endTour(); nudge(+b.dataset.nudge); }));
+    playBtn.addEventListener("click", () => {
+      if (!tour) startTour();
+      else if (tour.mode === "run") { tour.mode = "pause"; cancelAnimationFrame(tour.raf); syncPlay(); }
+      else if (tour.mode === "pause") run();
+      else resume();
+    });
+
+    const pop = document.createElement("div");
+    pop.className = "ab-pop";
+    pop.hidden = true;
+    pop.setAttribute("role", "status");
 
     function draw() {
       W = chart.clientWidth;
       if (!W) return;
       const narrow = W < 520;
-      const H = narrow ? 620 : 700, L = narrow ? 34 : 92, R = 10, T = 30, B = 44;
+      let H = narrow ? 620 : 700;
+      // phones: fit the whole chart on screen below the pinned readout
+      if (phone()) H = Math.round(Math.max(380, Math.min(H, root.clientHeight - readout.offsetHeight - 8)));
+      const L = narrow ? 34 : 92, R = 10, T = 30, B = 44;
       const PH = H - T - B, PW = W - L - R;
       const y = tt => T + (1 - tt / 100) * PH, x = p => L + p / 100 * PW;
-      dims = { H, L, T, PH, y };
+      dims = { H, L, T, PH, y, x };
       const scale = narrow ? 0.8 : 1;
-
       // bands: one polygon per group from the cumulative left/right edges at every level
       const ts = LEVELS.map(l => l[0]);
       const edges = ts.map(tt => { const p = pctAt(tt); let acc = 0; return p.map(v => { const e = [acc, acc + v]; acc += v; return e; }); });
@@ -543,13 +582,16 @@
         t = Math.max(0, Math.min(100, (1 - (e.clientY - r.top - T) / PH) * 100));
         update();
       };
-      svg.addEventListener("pointerdown", setFromEvent);
-      svg.addEventListener("pointermove", e => { if (e.pointerType === "mouse") setFromEvent(e); });
+      // mouse only: on touch screens taps fought with scrolling and zooming, so phones use Play and ▲ ▼
+      svg.addEventListener("pointerdown", e => { if (e.pointerType === "mouse") { endTour(); setFromEvent(e); } });
+      svg.addEventListener("pointermove", e => { if (e.pointerType === "mouse" && !tour) setFromEvent(e); });
       svg.addEventListener("keydown", e => {
-        if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); nudge(e.key === "ArrowUp" ? 2 : -2); }
+        if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); endTour(); nudge(e.key === "ArrowUp" ? 2 : -2); }
       });
+      chart.appendChild(pop);
       highlight();
       update();
+      placePop();
     }
 
     function nudge(d) { t = Math.max(0, Math.min(100, t + d)); update(); }
@@ -561,39 +603,113 @@
       cur.querySelector("line").setAttribute("y1", cy); cur.querySelector("line").setAttribute("y2", cy);
       cur.querySelector("circle").setAttribute("cy", cy);
       const p = pctAt(t), z = zoneAt(t);
-      const rows = GROUPS.map((g, k) => ({ g, v: p[k] })).filter(r => r.v >= 0.5);
-      readout.innerHTML = `
-        <div class="ab-ro-head"><span class="ab-ro-zone" style="--zc:${z.color}">${z.name}</span>
-          <span class="ab-ro-btns"><button type="button" data-nudge="2" aria-label="Younger">▲</button><button type="button" data-nudge="-2" aria-label="Older">▼</button></span></div>
-        <div class="ab-ro-stack">${rows.map(r => `<span style="width:${r.v}%;background:${r.g.color}" title="${r.g.name}: ${Math.round(r.v)}%"></span>`).join("")}</div>
-        <ul>${rows.map(r => `<li data-g="${r.g.id}"><span class="sw" style="background:${r.g.color}"></span>${foramIcon(r.g.id, 18)}<span class="nm">${r.g.name}</span><b>${Math.round(r.v)}%</b></li>`).join("")}</ul>`;
-      readout.querySelectorAll("[data-nudge]").forEach(b => b.addEventListener("click", () => nudge(+b.dataset.nudge)));
-      key.querySelectorAll(".ab-chip").forEach((c, k) => {
-        c.querySelector(".pct").textContent = `${Math.round(p[k])}%`;
-        c.classList.toggle("absent", p[k] < 0.5);
-      });
+      if (zoneEl.textContent !== z.name) { zoneEl.textContent = z.name; zoneEl.style.setProperty("--zc", z.color); }
+      stack.innerHTML = GROUPS.map((g, k) => p[k] >= 0.5 ? `<span style="width:${p[k]}%;background:${g.color}" title="${g.name}: ${Math.round(p[k])}%"></span>` : "").join("");
+      [rows.querySelectorAll("li"), key.querySelectorAll(".ab-chip")].forEach(list => list.forEach((n, k) => {
+        n.querySelector(".pct").textContent = `${Math.round(p[k])}%`;
+        n.classList.toggle("absent", p[k] < 0.5);
+      }));
     }
 
     function highlight() {
       chart.querySelector("svg")?.classList.toggle("focusing", !!focusGroup);
       chart.querySelectorAll("[data-g]").forEach(n => n.classList.toggle("hi", n.dataset.g === focusGroup));
+      rows.querySelectorAll("li").forEach(n => n.classList.toggle("hi", n.dataset.g === focusGroup));
       key.querySelectorAll(".ab-chip").forEach(c => c.setAttribute("aria-pressed", c.dataset.g === focusGroup));
-      const about = $(".ab-key-about", key), g = GROUPS.find(g => g.id === focusGroup);
-      about.hidden = !g;
+      const g = GROUPS.find(g => g.id === focusGroup);
+      about.hidden = !g || !!tour; // during the tour the pop-up does the explaining
       if (g) about.innerHTML = `<b>${g.name}.</b> ${g.about}`;
+    }
+
+    // ----- guided tour -----
+    function syncPlay() {
+      const m = tour && tour.mode;
+      playBtn.textContent = m === "run" ? "❚❚ Pause" : m === "stop" ? (tour.next === STOPS.length - 1 ? "↺ Replay" : "▶ Next") : "▶ Play";
+      playBtn.classList.toggle("on", !!tour);
+    }
+    function step(now) {
+      if (!tour || tour.mode !== "run") return;
+      const dt = Math.min(0.05, (now - (tour.last || now)) / 1000);
+      tour.last = now;
+      const target = STOPS[tour.next].t;
+      t = reduce ? target : Math.min(target, t + TOUR_SPEED * dt);
+      update();
+      if (t >= target) { tour.mode = "stop"; showStop(); syncPlay(); return; }
+      tour.raf = requestAnimationFrame(step);
+    }
+    function run() {
+      tour.mode = "run";
+      tour.last = 0;
+      pop.hidden = true;
+      setFocus(null);
+      syncPlay();
+      tour.raf = requestAnimationFrame(step);
+    }
+    function startTour() {
+      endTour();
+      tour = { next: 0 };
+      t = 0;
+      setTouring(true);
+      $("#abWrap", root).scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+      run();
+    }
+    function resume() {
+      if (tour.next >= STOPS.length - 1) return startTour();
+      tour.next++;
+      run();
+    }
+    function endTour() {
+      if (!tour) return;
+      cancelAnimationFrame(tour.raf);
+      tour = null;
+      pop.hidden = true;
+      setFocus(null);
+      syncPlay();
+      setTouring(false);
+    }
+    // phones: shrink the key while touring so the whole chart fits on screen
+    function setTouring(on) {
+      readout.classList.toggle("touring", on);
+      if (phone()) draw(); else update();
+    }
+    function showStop() {
+      const i = tour.next, s = STOPS[i], last = i === STOPS.length - 1;
+      setFocus(s.g);
+      pop.innerHTML = `<button type="button" class="ab-pop-x" aria-label="End tour">×</button>
+        <b>${s.title}</b><p>${s.text}</p>
+        <div class="ab-pop-foot"><span>${i + 1} of ${STOPS.length}</span><button type="button" class="btn small">${last ? "↺ Replay" : "Continue ▶"}</button></div>`;
+      pop.querySelector(".btn").addEventListener("click", resume);
+      pop.querySelector(".ab-pop-x").addEventListener("click", endTour);
+      pop.hidden = false;
+      placePop();
+    }
+    // Place the pop-up beside the cursor line, its arrow pointing at the middle of the highlighted band.
+    function placePop() {
+      if (pop.hidden || !dims || !tour) return;
+      const s = STOPS[tour.next], cy = dims.y(s.t), p = pctAt(s.t);
+      const k = GROUPS.findIndex(g => g.id === s.g);
+      const ax = dims.x(p.slice(0, k).reduce((a, v) => a + v, 0) + p[k] / 2);
+      const w = Math.min(290, W - 16), px = Math.max(8, Math.min(W - w - 8, ax - w / 2));
+      const below = cy < dims.H * 0.45;
+      pop.classList.toggle("below", below);
+      pop.style.width = w + "px";
+      pop.style.left = px + "px";
+      pop.style.top = below ? `${cy + 14}px` : "";
+      pop.style.bottom = below ? "" : `${dims.H - cy + 14}px`;
+      pop.style.setProperty("--ax", `${Math.max(16, Math.min(w - 16, ax - px))}px`);
     }
 
     draw();
     let rt;
     const ro = new ResizeObserver(() => { if (chart.clientWidth !== W) { clearTimeout(rt); rt = setTimeout(draw, 80); } });
     ro.observe(chart);
-    return () => ro.disconnect();
+    return () => { ro.disconnect(); endTour(); };
   }
 
   // ---------- Topic registry + page ----------
   const TOPICS = [
-    { id: "extinction", title: "The extinction mystery", blurb: "What vanished 66 million years ago, the competing ideas, and the question that started it all.", html: extinctionTopic },
-    { id: "core", title: "How to read a core", blurb: "What a core is, how it’s sampled, and why time runs bottom to top.", html: coreTopic,
+    { id: "extinction", title: "The extinction mystery", short: "Extinction mystery", blurb: "What vanished 66 million years ago, the competing ideas, and the question that started it all.", html: extinctionTopic },
+    { id: "core", title: "How to read a core", short: "Reading a core", blurb: "What a core is, how it’s sampled, and why time runs bottom to top.", html: coreTopic,
       mount(root) {
         const replay = $("[data-replay]", root), svg = $(".stack-anim", root);
         replay && replay.addEventListener("click", () => { svg.classList.remove("play"); void svg.getBBox(); svg.classList.add("play"); });
@@ -602,7 +718,7 @@
         io.observe(svg);
         return () => io.disconnect();
       } },
-    { id: "abundance", title: "Species abundance through a core", blurb: "How forams rose and fell before and after the K-Pg boundary.", html: abundanceTopic, mount: mountAbundance }
+    { id: "abundance", title: "Species abundance through a core", short: "Species abundance", blurb: "How forams rose and fell before and after the K-Pg boundary.", html: abundanceTopic, mount: mountAbundance }
   ];
 
   let cleanup = null;
@@ -615,7 +731,7 @@
         <nav class="learn-toc" aria-label="Background topics">
           <div class="eyebrow">Background info</div>
           ${TOPICS.map((t, i) => `<button type="button" data-topic="${t.id}" aria-current="${t.id === topic.id}">
-            <span class="n">${i + 1}</span><span><b>${t.title}</b><small>${t.blurb}</small></span></button>`).join("")}
+            <span class="n">${i + 1}</span><span><b>${t.title}</b><b class="short">${t.short}</b><small>${t.blurb}</small></span></button>`).join("")}
         </nav>
         <article class="learn-article">
           ${back ? `<button type="button" class="btn ghost small back-from-learn" id="learnBack">← ${back.label}</button>` : ""}
