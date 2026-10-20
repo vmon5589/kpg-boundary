@@ -181,7 +181,7 @@
         <div><b>2 · Explore the layers</b>Hover (or tap) a layer of the core or cliff. Use <kbd>↑</kbd><kbd>↓</kbd> to move through time.</div>
         <div><b>3 · Build the case</b>The Trail of Evidence follows the clues in the order scientists found them.</div>
       </div>
-      <p class="name-note">New to rock cores? Start with the background: ${learnLink("core", "How to read a core")}</p>
+      <p class="name-note">New here? ${learnLink("guide", "How to use this app")} &nbsp;·&nbsp; New to rock cores? ${learnLink("core", "How to read a core")} &nbsp;·&nbsp; Lost in geologic time? ${learnLink("timeline", "Geological timeline")}</p>
       <div id="groups"></div>
       <div class="cta">
         <p><b>How did scientists figure it out?</b> Follow 14 clues, from big forams vanishing in Italy to a crater buried in Mexico, and watch the evidence add up across seven fields of science.</p>
@@ -662,7 +662,7 @@
     if (mode === "learn") {
       bar.hidden = true;
       document.documentElement.style.setProperty("--trail-h", "0px");
-      state.learnTopic = KTLearn.render(topic || state.learnTopic || "extinction", learnBack());
+      state.learnTopic = KTLearn.render(topic || state.learnTopic || "guide", learnBack());
       history.replaceState(null, "", "#learn=" + state.learnTopic);
       return;
     }
@@ -713,7 +713,12 @@
     learnReturn = null;
     setMode("trail");
   }
-  window.KTApp = { openLearn, openSite, openTrail };
+  function openMap() {
+    learnReturn = null;
+    setMode("explore");
+    backToMap();
+  }
+  window.KTApp = { openLearn, openSite, openTrail, openMap };
 
   function goTrail(i) {
     const n = KT.trail.length;
