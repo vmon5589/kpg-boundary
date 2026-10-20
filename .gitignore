@@ -11,3 +11,6 @@ KT_Trail_of_Evidence_teacher.pdf
 
 # macOS
 .DS_Store
+
+# Full-size originals of the compressed images
+image/originals/

@@ -328,8 +328,8 @@
       <section class="lt-sec">
         <h3><span class="num">2</span>Shocked quartz: proof of an impact</h3>
         <figure class="min-pair">
-          <div><img src="image/unshocked-quartz.png" alt="An unshocked quartz grain under a polarizing microscope: smooth bands of color with no lines through it" loading="lazy"><span><b>Unshocked quartz</b> smooth, no lines</span></div>
-          <div><img src="image/shocked-quartz.png" alt="A shocked quartz grain under a polarizing microscope, crossed by many fine, straight, parallel lines" loading="lazy"><span><b>Shocked quartz</b> sets of straight, parallel lines</span></div>
+          <div><img src="image/unshocked-quartz.jpg" alt="An unshocked quartz grain under a polarizing microscope: smooth bands of color with no lines through it" loading="lazy"><span><b>Unshocked quartz</b> smooth, no lines</span></div>
+          <div><img src="image/shocked-quartz.jpg" alt="A shocked quartz grain under a polarizing microscope, crossed by many fine, straight, parallel lines" loading="lazy"><span><b>Shocked quartz</b> sets of straight, parallel lines</span></div>
           <figcaption>Quartz grains under a polarizing microscope. Photos © David A. Kring, <a href="https://www.lpi.usra.edu/science/kring/Chicxulub/discovery/" target="_blank" rel="noopener">Lunar and Planetary Institute</a>.</figcaption>
         </figure>
         <p><b>Quartz</b> is one of the most common minerals in continental rock like granite and sandstone. When an asteroid hits, a shock wave squeezes the rock to more than 100,000 times the pressure of the air around us in a split second. Quartz crystals buckle along thin, flat planes that turn to glass. Under a microscope these show up as sets of fine, <b>straight, parallel lines</b> crossing the grain, often in two or more directions.</p>
@@ -348,7 +348,7 @@
 
       <section class="lt-sec">
         <h3><span class="num">4</span>Tektites and spherules: melted rock that rained down</h3>
-        <figure class="min-photo min-slab"><img src="image/ktboundary.haiti-slab.png" alt="Cut rock slab packed with dark, rounded glass tektites in tan limestone" loading="lazy">
+        <figure class="min-photo min-slab"><img src="image/ktboundary.haiti-slab.jpg" alt="Cut rock slab packed with dark, rounded glass tektites in tan limestone" loading="lazy">
           <figcaption>Tektites in the Beloc boundary bed, Haiti. Photo: Jan Smit, VU Amsterdam.</figcaption></figure>
         <p>The impact melted and vaporized rock and blasted it above the atmosphere. The melt cooled into <b>glass droplets</b> that rained back down around the planet. Big ones (millimeters across) are called <b>tektites</b>; tiny ones are <b>spherules</b>. Over millions of years, most of this glass turns into clay, like the green spherule bed at Blake Nose.</p>
         <p>At Beloc, Haiti, the bed is up to half a meter thick, and some tektites still have fresh black glass inside. Some of that glass is unusually rich in <b>calcium and sulfur</b>, the recipe you’d get by melting a mix of continental rock and limestone and anhydrite. Thick ejecta and that recipe both pointed to a crater close by, around the Gulf of Mexico. When the glass was dated, it matched the age of Chicxulub’s melt rock.</p>
@@ -371,8 +371,8 @@
       <section class="lt-sec">
         <h3><span class="num">6</span>Zircon: the clock that pins down the date</h3>
         <figure class="min-pair min-zircon">
-          <div><img src="image/unshocked-zircon.png" alt="An unshocked zircon crystal under an electron microscope, with sharp, unbroken growth rings from its center to its edge" loading="lazy"><span><b>Unshocked zircon</b> growth rings intact, edge to edge</span></div>
-          <div><img src="image/shocked-zircon.png" alt="A shocked zircon crystal: a blue inner core with growth rings, surrounded by a grainy pink rim" loading="lazy"><span><b>Shocked zircon</b> grainy rim rebuilt by the impact</span></div>
+          <div><img src="image/unshocked-zircon.jpg" alt="An unshocked zircon crystal under an electron microscope, with sharp, unbroken growth rings from its center to its edge" loading="lazy"><span><b>Unshocked zircon</b> growth rings intact, edge to edge</span></div>
+          <div><img src="image/shocked-zircon.jpg" alt="A shocked zircon crystal: a blue inner core with growth rings, surrounded by a grainy pink rim" loading="lazy"><span><b>Shocked zircon</b> grainy rim rebuilt by the impact</span></div>
           <figcaption>Zircons under an electron microscope. Right: shocked zircon crystal used to date another impact (Yarrabubba in Australia). The pink layer is recrystallised during impact leaving the blue inner core intact. Images via <a href="https://ontherocksgeoblog.wordpress.com/2013/02/21/zircon-geologys-tiny-timepiece/" target="_blank" rel="noopener">On the Rocks</a> (left) and <a href="https://www.realclearscience.com/articles/2020/01/22/earths_oldest_asteroid_strike_identified__it_may_have_caused_a_global_thaw_111265.html" target="_blank" rel="noopener">RealClearScience</a> (right).</figcaption>
         </figure>
         <p><b>Zircon</b> is a tiny, extremely tough crystal. When it grows, it traps a little <b>uranium</b> but almost no lead. Uranium slowly decays into lead at a known rate, so measuring the two tells you how long ago the crystal formed. Zircon is one of geology’s best clocks.</p>

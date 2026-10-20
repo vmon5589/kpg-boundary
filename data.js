@@ -42,7 +42,7 @@ KT.sites = [
     // 1991 confirmation: shocked quartz from the Yucatán-6 borehole.
     discovery: {
       title: "1991: proof it was an impact crater",
-      src: "image/chicxulub.shockedQuartz.png",
+      src: "image/chicxulub.shockedQuartz.jpg",
       label: "Shocked quartz from the Yucatán-6 borehole",
       alt: "A rainbow-colored quartz grain under a polarizing microscope, crossed by fine, straight, parallel lines",
       text: [
@@ -93,7 +93,7 @@ KT.sites = [
         depth: "618–722 m deep",
         what: "Broken rock fragments mixed with blobs of glassy melt, dumped back into the crater as seawater rushed in. Some fragments carry shatter cones.",
         figures: [
-          { src: "image/fig3g.png", label: "Shatter cone", depth: "708.5 m",
+          { src: "image/fig3g.jpg", label: "Shatter cone", depth: "708.5 m",
             caption: "A shatter cone: a fragment of dark rock (amphibolite) from the breccia, covered in fanning, striated grooves. Shatter cones form only when a shock wave passes through rock, so they are a field geologist’s tell-tale sign of an impact. Scale bar 1 cm." }
         ],
         why: "Melt and breccia like this form only from enormous heat and shock. The target rocks here were rich in anhydrite (calcium sulfate). Vaporized sulfur made sulfate aerosols that helped block sunlight.",
@@ -120,11 +120,11 @@ KT.sites = [
         why: "Shocked quartz forms only under extreme pressure, from impacts (or nuclear blasts). The quartz here shows up to four sets of shock lines, from pressures of 10–35 GPa. Finding it here, and in boundary layers far away, points to this crater as the source. " +
           "The granite is also unusually light and porous for granite, because the impact riddled it with cracks.",
         figures: [
-          { src: "image/fig3f.png", label: "Shocked quartz", depth: "826.9 m",
+          { src: "image/fig3f.jpg", label: "Shocked quartz", depth: "826.9 m",
             caption: "Shocked quartz under the microscope (cross-polarized light). The white bars mark three sets of straight, parallel “planar deformation features”: microscopic planes where the crystal was crushed by the shock wave. Only an impact (or a nuclear blast) makes these. Scale bar 50 µm, about the width of a human hair." },
-          { src: "image/fig3e.png", label: "Peak-ring granite", depth: "862.3 m",
+          { src: "image/fig3e.jpg", label: "Peak-ring granite", depth: "862.3 m",
             caption: "Typical granite from the peak ring, with large red-brown crystals of potassium feldspar. This rock started out several kilometers down, below the limestone. Scale bar 5 cm." },
-          { src: "image/fig3c.png", label: "Crushed granite", depth: "957.4 m",
+          { src: "image/fig3c.jpg", label: "Crushed granite", depth: "957.4 m",
             caption: "A cataclastic shear zone: the lower part is still recognizable granite, but toward the top it has been ground into fine, greenish rock flour as blocks of crust slid past each other during the collapse. Scale bar 5 cm." }
         ],
         evidence: "There are abnormal gravitational fields near Chicxulub; this site is also full of shocked quartz.",
@@ -239,7 +239,7 @@ KT.sites = [
     latlng: [43.37, 12.58],
     type: "marine",
     typeLabel: "Marine limestone outcrop",
-    image: "image/ktboundary.gubbio.png",
+    image: "image/ktboundary.gubbio.jpg",
     imageAlt: "Tilted limestone beds: rusty-tan Paleocene limestone above, a dark recessed clay seam running diagonally, and white-pink Cretaceous limestone below",
     imageCredit: "“KT Boundary, Gubbio, Italy” 3D model, Sketchfab",
     imageCreditUrl: "https://sketchfab.com/3d-models/kt-boundary-gubbio-italy-2-0b406d6922a34042a8566e6c20920a46",
@@ -290,7 +290,7 @@ KT.sites = [
     latlng: [55.27, 12.44],
     type: "marine",
     typeLabel: "Sea-cliff outcrop",
-    image: "image/whitecliffs.png",
+    image: "image/whitecliffs.jpg",
     imageAlt: "Close-up of the Stevns Klint cliff: white chalk at the bottom, a rusty-brown and grey clay layer, broken limestone slabs, and pale limestone on top",
     boundaryThickness: "“Fish Clay” up to ~10 cm",
     summary:
@@ -419,7 +419,7 @@ KT.sites = [
     latlng: [18.38, -72.62],
     type: "marine",
     typeLabel: "Marine outcrop",
-    image: "image/ktboundary.haiti-slab.png",
+    image: "image/ktboundary.haiti-slab.jpg",
     imageAlt: "Close-up of a cut rock slab packed with dark, rounded and oval glass tektites, some with pale rims or bubbles, in a tan limestone matrix",
     photoTag: "Close-up · tektite bed",
     imageCredit: "Slab of the K-Pg ejecta layer near Beloc (Jan Smit, VU Amsterdam)",
